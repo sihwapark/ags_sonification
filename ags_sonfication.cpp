@@ -7,15 +7,16 @@
 // The data is about my phone use behavior and includes the 11,367 records of a location, date, duration of 
 // each phone use since January 20, 2017. For this interface, it only uses hourly use duration.
 
-// For implementing AGS with the data, parameter mapping from data to sound will be as below:
+// For implementing AGS with the data, parameters to be controlled are as below:
 
 // - Cloud frequency bands: 24 bands that represents hours of a day
 //    e.g.) 0 to 1 → 1st band, 1 to 2 → 2nd band, …, 23 to 0 → 24th band
-// - Cloud duration: a constant value between 100ms to 500ms
+//    each band has high and low boundaries as a midi note value.
+// - Cloud duration: a value between 100ms to 500ms
 // - Grain density: hourly use duration rescaled up to 100 grains per second
-// - Grain duration: a constant value between 20ms to 50ms
+// - Grain duration: a value between 10ms to 50ms
 // - Amplitude envelope type: linear ADSR or bell-shaped Gaussian curve (hann window)
-// - Waveforms of grains: a fixed synthetic type among sine, saw, square, triangle, and impulse
+// - Waveform of a grain: a synthetic type among sine, saw, square, triangle, and impulse
 
 // Author: Sihwa Park (sihwapark@ucsb.edu)
 // 2018-03-20
@@ -449,7 +450,7 @@ struct App : AudioVisual {
     file.open("final/hourlyLength.txt");
 
     if(file.is_open() == false) {
-      printf("Error: can't open file!\n");
+      printf("Error: can't open final/hourlyLength.txt file!\n");
       exit(1);
     }
 
@@ -487,7 +488,7 @@ struct App : AudioVisual {
     file.open("final/setting.txt");
     string line;
     if(file.is_open() == false) {
-      printf("Error: can't open file!\n");
+      printf("Error: setting.txt does not exist!\n");
     } else {
 
       getline (file,line);
